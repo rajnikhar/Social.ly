@@ -14,17 +14,6 @@ app.get("/", (req, res) => {
 
 app.use(express.json());
 
-
-// Create routes for
-// 1. Verify Login Otp ✅
-// 2. Create auth middleware ✅
-// 3. Get My profile ✅
-// 4. Update profile ✅
-// 5. Logout User ✅
-// 6. Create post controller
-
-// Complete middleware auth.js
-
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/post", postRouter);
 
