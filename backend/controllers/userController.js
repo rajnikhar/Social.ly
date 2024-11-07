@@ -324,7 +324,10 @@ export const loginUser = async (req, res) => {
         await user.save();
 
         // Send response
-        Response(res, 200, true, message.otpSendMessage)
+        // Response(res, 200, true, message.otpSendMessage)
+        res.render("otp", {
+            id: user._id,
+        });
 
         
     } catch (error) {
@@ -334,6 +337,7 @@ export const loginUser = async (req, res) => {
 
 export const verifyLoginOtp = async (req, res) => {
     try {
+        console.log("W1")
         // params and body
         const { id } = req.params;
         let { otp } = req.body;
@@ -349,8 +353,9 @@ export const verifyLoginOtp = async (req, res) => {
             return Response(res, 404, false, message.userNotFoundMessage);
         }
 
+        // console.log("User: ", user)
         // If user is not verified
-        if(!user.verified) {
+        if(!user.isVerified) {
             return Response(res, 400, false, message.userNotVerifiedMessage);
         }
 
@@ -370,12 +375,15 @@ export const verifyLoginOtp = async (req, res) => {
         }
 
         // Check if otp is expired
+        // console.log("Otp Time: ", user.loginOtpExpire)
+        // console.log("Curr Time: ", Date.now())
         if(user?.loginOtpExpire < Date.now()) {
             return Response(res, 400, false, message.otpExpiredMessage);
         }
 
         // Check if otp is correct
-        if(user?.loginOtp !== otp) {
+        console.log(typeof user?.loginOtp, typeof otp)
+        if(user?.loginOtp != otp) {
             return Response(res, 400, false, message.invalidOtpMessage);
         }
 
