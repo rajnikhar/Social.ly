@@ -5,7 +5,6 @@ import { message } from "../utils/message.js"
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
-import { time } from "console";
 import Post from "../models/postModel.js";
 
 const __filename = fileURLToPath(import.meta.url);
