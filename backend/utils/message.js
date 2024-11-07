@@ -19,4 +19,10 @@ export const message = {
     userProfileFoundMessage: "User profile found",
     userProfileUpdatedMessage: "User profile updated successfully",
     userNotVerifiedMessage: "User not verified. Please verify your email",
+    postCreatedMessage: "Post created successfully",
+    postNotFoundMessage: "Post not found",
+    postUpdatedMessage: "Post updated successfully",
+    postDeletedMessage: "Post deleted successfully",
+    postsNotFoundMessage: "No Post found",
+    postsFoundMessage: "Posts found",
 }

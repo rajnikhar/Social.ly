@@ -6,6 +6,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import { time } from "console";
+import Post from "../models/postModel.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -477,7 +478,7 @@ export const logoutUser = async (req, res) => {
     }
 }
 
-export const myProfile = async (req, res) => {
+export const getMyProfile = async (req, res) => {
     try {
 
         if(!req.user) {
@@ -506,6 +507,29 @@ export const updateUser = async (req, res) => {
         });
 
         Response(res, 200, true, message.userProfileUpdatedMessage, user);
+        
+    } catch (error) {
+        Response(res, 500, false, error.message);
+    }
+}
+
+
+// Post Interaction
+export const getMyPosts = async (req, res) => {
+    try {
+        // User
+        const user = req.user;
+
+        // Find posts
+        const posts = await Post.find({
+            owner: user._id
+        }).populate('owner', ['name', 'username', 'avatar']);
+
+        if(!posts) {
+            return Response(res, 404, false, message.postsNotFoundMessage);
+        }
+
+        Response(res, 200, true, message.postsFoundMessage, posts);
         
     } catch (error) {
         Response(res, 500, false, error.message);
