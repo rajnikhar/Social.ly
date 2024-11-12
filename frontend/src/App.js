@@ -3,7 +3,9 @@ import Path from './routes';
 
 function App() {
   return (
-    <Path />
+    <div className="App">
+      <Path />
+    </div>
   );
 }
 
