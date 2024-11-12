@@ -10,9 +10,6 @@ dotenv.config({ path: "./config/config.env" });
 
 const app = express();
 
-app.set("view engine", "ejs");
-app.set("views", path.resolve("./views"))
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 
@@ -21,15 +18,7 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/post", postRouter);
 
 app.get("/", (req, res) => {
-    // res.send("Hello from the server!");
-    res.render("home", {
-        title: "Social.ly",
-    });
+    res.send("Hello from the server!");
 });
-
-app.get("/login", (req, res) => {
-    res.render("login")
-})
-
 
 export default app;
