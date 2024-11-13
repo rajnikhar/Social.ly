@@ -18,27 +18,18 @@ export const registerUser = async (req, res) => {
 
         // Checking the body data
         if(!firstName || !lastName || !email || !password || !dob || !mobile || !username || !gender) {
-            return res.status(400).json({
-                success: false,
-                message: 'Please provide all required fields'
-            })
+            return Response(res, 400, false, message.missingFieldsMessage);
         }
 
         // If user exists
         let user = await User.findOne({ email })
         if(user) {
-            return res.status(400).json({
-                success: false,
-                message: 'User already exists'
-            })
+            return Response(res, 400, false, message.userExistsMessage);
         }
 
         user = await User.findOne({ username })
         if(user) {
-            return res.status(400).json({
-                success: false,
-                message: 'Username already exists'
-            })
+            return Response(res, 400, false, message.usernameExistsMessage);
         }
 
         // Create user
@@ -68,18 +59,10 @@ export const registerUser = async (req, res) => {
         });
 
         // Send response
-        res.status(201).json({
-            success: true,
-            message: 'User created successfully',
-            data: user
-        })
+        Response(res, 201, true, message.otpSendMessage);
         
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message
-        })
-        // Responses(res, 500, false, error.message);
+        Response(res, 500, false, error.message);
     }
 }
 
@@ -323,20 +306,16 @@ export const loginUser = async (req, res) => {
         await user.save();
 
         // Send response
-        // Response(res, 200, true, message.otpSendMessage)
-        res.render("otp", {
-            id: user._id,
-        });
+        Response(res, 200, true, message.otpSendMessage)
 
         
     } catch (error) {
-        
+        Response(res, 500, false, error.message);
     }
 }
 
 export const verifyLoginOtp = async (req, res) => {
     try {
-        console.log("W1")
         // params and body
         const { id } = req.params;
         let { otp } = req.body;
