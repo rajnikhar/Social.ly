@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../styles/Login.css'
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../../redux/Actions/userActions';
 
 const Login = () => {
 
@@ -9,10 +11,24 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const dispatch = useDispatch();
+
+    const { loading, message, error } = useSelector(state => state.userAuth)
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(email, password);
+        dispatch(loginUser(email, password));
     }
+
+    useEffect(() => {
+        if(message){
+            console.log(message);
+        }
+        if(error){
+            console.log(error)
+        }
+    }, [dispatch, message, error])
 
 
     return (

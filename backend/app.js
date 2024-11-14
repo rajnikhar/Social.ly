@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-// import ejs from "ejs"
+import cors from "cors"
 import path from "path"
 import userRouter from "./routes/userRoute.js";
 import postRouter from "./routes/postRoute.js";
@@ -12,6 +12,12 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
+
+app.use(cors({
+    origin: [process.env.LOCAL_URL, process.env.WEB_URL],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    credentials: true,
+}))
 
 
 app.use("/api/v1/user", userRouter);
