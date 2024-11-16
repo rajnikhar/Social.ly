@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../../styles/Register.css';
 
-const LoginOtp = () => {
+const VerifyOtp = () => {
     const spans = Array.from({ length: 128 });
 
 
@@ -44,4 +44,4 @@ const LoginOtp = () => {
     );
 };
 
-export default LoginOtp;
+export default VerifyOtp;

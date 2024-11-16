@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../../styles/Register.css';
+import { useDispatch } from 'react-redux';
 
 const LoginOtp = () => {
     const spans = Array.from({ length: 128 });
+
+    const[otp, setOtp] = useState();
+
+    const dispatch = useDispatch();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(otp);
+    }
 
 
     return (
@@ -15,11 +25,12 @@ const LoginOtp = () => {
                 <div className="signin" style={{ width: "400px"}}>
                     <div className="content">
                         <h2>Enter OTP</h2>
-                        <form className="form" >
+                        <form className="form" onSubmit={handleSubmit} >
                             <div className="inputBx">
                                 <input
                                     type="number"
-                                    value=''
+                                    value={otp}
+                                    onChange={(e) => setOtp(e.target.value)}
                                     required
                                 />
                                 <i>OTP</i>
@@ -31,9 +42,7 @@ const LoginOtp = () => {
                             </div>
                             <div className="inputBx">
                                 <button type="submit" >
-                                    {/* {loading===true ? <span className="spinner"></span> :  */}
-                                    Login
-                                    {/* } */}
+                                    Submit
                                 </button>
                             </div>
                         </form>

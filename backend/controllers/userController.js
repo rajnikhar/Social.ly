@@ -306,7 +306,7 @@ export const loginUser = async (req, res) => {
         await user.save();
 
         // Send response
-        Response(res, 200, true, message.otpSendMessage)
+        Response(res, 200, true, message.otpSendMessage, user._id)
 
         
     } catch (error) {

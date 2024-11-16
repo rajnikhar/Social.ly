@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../../styles/Login.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../redux/Actions/userActions';
 import toastOptions from '../../constants/toast';
@@ -14,8 +14,9 @@ const Login = () => {
     const [password, setPassword] = useState('');
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const { loading, message, error } = useSelector(state => state.userAuth)
+    const { loading, message, error, id } = useSelector(state => state.userAuth)
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -25,13 +26,11 @@ const Login = () => {
 
     useEffect(() => {
         if(message){
-            console.log(message);
             toast.success(message, toastOptions);
             dispatch({ type: "CLEAR_MESSAGE" })
-            // Navigate
+            navigate(`/login/${id}`)
         }
         if(error){
-            console.log(error)
             toast.error(error, toastOptions);
             dispatch({ type: "CLEAR_ERROR" })
         }
