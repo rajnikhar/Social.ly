@@ -5,6 +5,7 @@ import { message } from "../utils/message.js"
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import cloudinary from 'cloudinary'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,7 +15,7 @@ let emailTemplate = fs.readFileSync(path.join(__dirname, '../templates/mail.html
 export const registerUser = async (req, res) => {
     try {
         // Parsing body data
-        const { firstName, middleName, lastName, email, password, dob, mobile, username, gender, avatar } = req.body.details;
+        const { firstName, middleName, lastName, email, password, dob, mobile, username, gender, avatar } = req.body;
 
         // Checking the body data
         if(!firstName || !lastName || !email || !password || !dob || !mobile || !username || !gender) {
@@ -40,7 +41,7 @@ export const registerUser = async (req, res) => {
                 // crop: "scale",
                 // height: 150
             })
-            req.body.details.avatar = {
+            req.body.avatar = {
                 public_id: result.public_id,
                 url: result.secure_url
             }
