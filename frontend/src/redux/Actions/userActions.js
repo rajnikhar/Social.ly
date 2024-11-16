@@ -45,6 +45,8 @@ export const verifyLoginOtp = (id, otp) => async (dispatch) => {
             withCredentials: true
         })
 
+        console.log("Data: ", data)
+
         dispatch({
             type: "LOGIN_OTP_SUCCESS",
             payload: data.message

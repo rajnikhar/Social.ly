@@ -34,7 +34,7 @@ export const userAuthReducer = createReducer(initialState, (builder) => {
         })
         .addCase(loginOtpSuccess, (state, action) => {
             state.loading = false;
-            state.message = action.payload.message;
+            state.message = action.payload;
             // state.id = action.payload.id;
         })
         .addCase(loginOtpFailure, (state, action) => {
