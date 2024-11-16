@@ -146,6 +146,7 @@ section {
 .inputBx button {
     padding: 10px;
     background: #00BFFF;
+    width: 100%;
     color: #111;
     font-weight: 600;
     font-size: 1.25em;
