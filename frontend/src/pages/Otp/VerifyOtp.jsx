@@ -1,38 +1,40 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import '../../styles/Login.css';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import '../../styles/Register.css';
 
-const OTPLogin = () => {
-    const [otp, setOtp] = useState('');
+const LoginOtp = () => {
     const spans = Array.from({ length: 128 });
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(otp);
-    }
 
 
     return (
         <section>
-            <div className="login-cont">
+            <div className="signup-cont">
                 {spans.map((_, index) => (
                     <span key={index} className="span"></span>
                 ))}
-                <div className="signin">
+                <div className="signin" style={{ width: "400px"}}>
                     <div className="content">
                         <h2>Enter OTP</h2>
-                        <form className="form" onSubmit={handleSubmit}>
+                        <form className="form" >
                             <div className="inputBx">
                                 <input
                                     type="number"
-                                    value={otp}
-                                    onChange={(e) => setOtp(Number(e.target.value))}
+                                    value=''
                                     required
                                 />
                                 <i>OTP</i>
                             </div>
+                            <div className="links">
+                                <Link to="/login">
+                                    Resend OTP
+                                </Link>
+                            </div>
                             <div className="inputBx">
-                                <input type="submit" value="Login" />
+                                <button type="submit" >
+                                    {/* {loading===true ? <span className="spinner"></span> :  */}
+                                    Login
+                                    {/* } */}
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -42,4 +44,4 @@ const OTPLogin = () => {
     );
 };
 
-export default OTPLogin;
+export default LoginOtp;

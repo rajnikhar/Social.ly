@@ -4,6 +4,8 @@ import Login from '../pages/Login'
 import Register from '../pages/Register'
 import Home from '../pages/Home'
 import LoadingPage from '../Components/Loading/Loading'
+import LoginOtp from '../pages/Otp/LoginOtp'
+// import VerifyOtp from '../pages/Otp/VerifyOtp'
 
 const Path = () => {
 
@@ -26,6 +28,8 @@ const Path = () => {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/login/:id" element={<LoginOtp />} />
+              {/* <Route path="/verify/:id" element={<VerifyOtp />} /> */}
           </Routes>
         )}
       </Router>

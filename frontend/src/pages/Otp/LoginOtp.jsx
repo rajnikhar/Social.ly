@@ -15,12 +15,11 @@ const LoginOtp = () => {
                 <div className="signin" style={{ width: "400px"}}>
                     <div className="content">
                         <h2>Enter OTP</h2>
-                        <form className="form" onSubmit={handleSubmit}>
+                        <form className="form" >
                             <div className="inputBx">
                                 <input
                                     type="number"
-                                    value={otp}
-                                    onChange={(e) => setOtp(Number(e.target.value))}
+                                    value=''
                                     required
                                 />
                                 <i>OTP</i>
@@ -31,8 +30,10 @@ const LoginOtp = () => {
                                 </Link>
                             </div>
                             <div className="inputBx">
-                                <button type="submit" disabled={loading} >
-                                    {loading===true ? <span className="spinner"></span> : "Login"}
+                                <button type="submit" >
+                                    {/* {loading===true ? <span className="spinner"></span> :  */}
+                                    Login
+                                    {/* } */}
                                 </button>
                             </div>
                         </form>
