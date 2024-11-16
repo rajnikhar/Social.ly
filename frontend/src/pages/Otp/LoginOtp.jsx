@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import '../../styles/Register.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import toastOptions from '../../constants/toast';
+import { verifyLoginOtp } from '../../redux/Actions/userActions';
 
 const LoginOtp = () => {
     const spans = Array.from({ length: 128 });
@@ -9,11 +12,33 @@ const LoginOtp = () => {
     const[otp, setOtp] = useState();
 
     const dispatch = useDispatch();
+    const { id } = useParams();
+
+    const navigate = useNavigate();
+
+    const { loading, message, error } = useSelector(state => state.userAuth)
 
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(otp);
+        if(otp / 100000 < 1){
+            toast.error("OTP must contain 6 digits", toastOptions)
+            return
+        }
+        dispatch(verifyLoginOtp(id, otp));
     }
+
+    useEffect(() => {
+        if(message){
+            toast.success(message, toastOptions);
+            dispatch({ type: "CLEAR_MESSAGE" })
+            navigate("/")
+        }
+        if(error){
+            toast.error(error, toastOptions);
+            dispatch({ type: "CLEAR_ERROR" })
+        }
+    }, [dispatch, error, message])
 
 
     return (
@@ -41,8 +66,12 @@ const LoginOtp = () => {
                                 </Link>
                             </div>
                             <div className="inputBx">
-                                <button type="submit" >
-                                    Submit
+                                <button type="submit" disabled={loading} >
+                                    {loading===true ? 
+                                        <span className="spinner"></span> 
+                                        :  
+                                        "Submit"
+                                    }
                                 </button>
                             </div>
                         </form>
