@@ -6,7 +6,10 @@ const initialState = {
 
 const userLoginRequest = createAction('USER_LOGIN_REQUEST');
 const userLoginSuccess = createAction('USER_LOGIN_SUCCESS');
-const userLoginFailure = createAction('USER_LOGIN_FAIL');
+const userLoginFailure = createAction('USER_LOGIN_FAILURE');
+
+const clearError = createAction('CLEAR_ERROR');
+const clearMessage = createAction('CLEAR_MESSAGE');
 
 export const userAuthReducer = createReducer(initialState, (builder) => {
     builder
@@ -20,5 +23,11 @@ export const userAuthReducer = createReducer(initialState, (builder) => {
         .addCase(userLoginFailure, (state, action) => {
             state.loading = false;
             state.error = action.payload;
+        })
+        .addCase(clearError, (state) => {
+            state.error = null;
+        })
+        .addCase(clearMessage, (state) => {
+            state.message = null;
         })
 })

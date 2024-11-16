@@ -3,6 +3,8 @@ import '../../styles/Login.css'
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../redux/Actions/userActions';
+import toastOptions from '../../constants/toast';
+import { toast } from 'react-toastify';
 
 const Login = () => {
 
@@ -24,9 +26,14 @@ const Login = () => {
     useEffect(() => {
         if(message){
             console.log(message);
+            toast.success(message, toastOptions);
+            dispatch({ type: "CLEAR_MESSAGE" })
+            // Navigate
         }
         if(error){
             console.log(error)
+            toast.error(error, toastOptions);
+            dispatch({ type: "CLEAR_ERROR" })
         }
     }, [dispatch, message, error])
 
@@ -64,8 +71,12 @@ const Login = () => {
                                 <Link to="/register">Sign Up</Link>
                             </div>
                             <div className="inputBx">
-                                <input 
-                                type="submit" value="Login"/>
+                                <button type="submit" disabled={loading}>
+                                    { loading===true ? 
+                                        <span className='spinner'></span>
+                                        : "Login"
+                                    }
+                                </button>
                             </div>
                         </form>
                     </div>
