@@ -8,6 +8,10 @@ const userLoginRequest = createAction('USER_LOGIN_REQUEST');
 const userLoginSuccess = createAction('USER_LOGIN_SUCCESS');
 const userLoginFailure = createAction('USER_LOGIN_FAILURE');
 
+const userRegisterRequest = createAction('USER_REGISTER_REQUEST');
+const userRegisterSuccess = createAction('USER_REGISTER_SUCCESS');
+const userRegisterFailure = createAction('USER_REGISTER_FAILURE');
+
 const loginOtpRequest = createAction('LOGIN_OTP_REQUEST');
 const loginOtpSuccess = createAction('LOGIN_OTP_SUCCESS');
 const loginOtpFailure = createAction('LOGIN_OTP_FAILURE');
@@ -38,6 +42,18 @@ export const userAuthReducer = createReducer(initialState, (builder) => {
             // state.id = action.payload.id;
         })
         .addCase(loginOtpFailure, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        })
+        .addCase(userRegisterRequest, (state) => {
+            state.loading = true;
+        })
+        .addCase(userRegisterSuccess, (state, action) => {
+            state.loading = false;
+            state.message = action.payload.message;
+            state.id = action.payload.id;
+        })
+        .addCase(userRegisterFailure, (state, action) => {
             state.loading = false;
             state.error = action.payload;
         })

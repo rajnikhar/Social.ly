@@ -59,3 +59,32 @@ export const verifyLoginOtp = (id, otp) => async (dispatch) => {
         })
     }
 }
+
+export const registerUser = (details) => async (dispatch) => {
+    try {
+        dispatch({
+            type: "USER_REGISTER_REQUEST"
+        })
+
+        const { data } = await axios.post(`${URL}/register`, details, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            withCredentials: true
+        });
+
+        dispatch({
+            type: "USER_REGISTER_SUCCESS",
+            payload: {
+                message: data.message,
+                id: data.data
+            }
+        })
+        
+    } catch (error) {
+        dispatch({
+            type: "USER_REGISTER_FAILURE",
+            payload: error.response?.data?.message
+        })
+    }
+}

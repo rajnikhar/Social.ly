@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import '../../styles/Register.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from '../../redux/Actions/userActions';
+import { toast } from 'react-toastify';
+import toastOptions from '../../constants/toast';
 
 const Register = () => {
 
     const spans = Array.from({ length: 128 })
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [details, setDetails] = useState({
         firstName: '',
@@ -18,6 +25,8 @@ const Register = () => {
         mobile: '',
         avatar: null
     })
+
+    const { loading, message, error, id } = useSelector(state => state.userAuth)
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -50,11 +59,20 @@ const Register = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(details);
+        dispatch(registerUser(details));
     }
 
     useEffect(() => {
-        console.log(details)
-    }, [details])
+        if(message){
+            toast.success(message, toastOptions)
+            dispatch({ type: "CLEAR_MESSAGE" })
+            navigate(`/verify/${id}`)
+        }
+        if(error){
+            toast.error(error, toastOptions)
+            dispatch({ type: "CLEAR_ERROR" })
+        }
+    }, [dispatch, message, error])
 
 
     return (
@@ -174,10 +192,13 @@ const Register = () => {
                                 </Link>
                             </div>
                             <div className="inputBx">
-                                <input 
-                                type="submit" 
-                                value="Register"
-                                />
+                            <button type="submit" disabled={loading}>
+                                    { 
+                                        loading===true ? 
+                                            <span className='spinner'></span>
+                                            : "Register"
+                                    }
+                                </button>
                             </div>
                         </form>
                     </div>

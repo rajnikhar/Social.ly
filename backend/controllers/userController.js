@@ -14,7 +14,7 @@ let emailTemplate = fs.readFileSync(path.join(__dirname, '../templates/mail.html
 export const registerUser = async (req, res) => {
     try {
         // Parsing body data
-        const { firstName, middleName, lastName, email, password, dob, mobile, bio, username, gender } = req.body
+        const { firstName, middleName, lastName, email, password, dob, mobile, username, gender, avatar } = req.body.details;
 
         // Checking the body data
         if(!firstName || !lastName || !email || !password || !dob || !mobile || !username || !gender) {
@@ -32,8 +32,21 @@ export const registerUser = async (req, res) => {
             return Response(res, 400, false, message.usernameExistsMessage);
         }
 
-        // Create user
+        // Upload image in cloudinary
+        if(avatar) {
+            const result = await cloudinary.v2.uploader.upload(avatar, {
+                folder: 'avatars',
+                // width: 150,
+                // crop: "scale",
+                // height: 150
+            })
+            req.body.details.avatar = {
+                public_id: result.public_id,
+                url: result.secure_url
+            }
+        }
 
+        // Create user
         user = await User.create({...req.body});
 
         const otp = Math.floor(100000 + Math.random() * 90000);
