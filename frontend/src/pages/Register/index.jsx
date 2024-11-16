@@ -15,7 +15,8 @@ const Register = () => {
         password: '',
         username: '',
         gender: '',
-        mobile: ''
+        mobile: '',
+        avatar: null
     })
 
     const handleChange = (e) => {
@@ -27,10 +28,33 @@ const Register = () => {
         })
     }
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            if(reader.readyState === 2){
+                setDetails({
+                    ...details,
+                    avatar: reader.result // Set the base64 image result
+                })
+            }
+        }
+
+        if(file){
+            reader.readAsDataURL(file)
+        }
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(details);
     }
+
+    useEffect(() => {
+        console.log(details)
+    }, [details])
 
 
     return (
@@ -42,6 +66,13 @@ const Register = () => {
                 <div className="signin">
                     <div className="content">
                         <h2>Register</h2>
+                        {
+                            details.avatar && (
+                                <div className='profile-picture-container'>
+                                    <img src={details.avatar} alt="Profile Picture" className='profile-picture' />
+                                </div>
+                            )
+                        }
                         <form className="form" onSubmit={handleSubmit}>
                             <div className="inputGrid">
                                 <div className="inputBx">
@@ -132,7 +163,8 @@ const Register = () => {
                             <div className="inputBx">
                                 <input 
                                 type="file" 
-                                name="profilePicture" 
+                                name="avatar" 
+                                onChange={handleImageChange}
                                 accept="image/*" />
                                 <i>Profile Picture</i>
                             </div>
