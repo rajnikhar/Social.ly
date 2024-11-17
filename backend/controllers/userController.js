@@ -73,7 +73,7 @@ export const registerUser = async (req, res) => {
         });
 
         // Send response
-        Response(res, 201, true, message.otpSendMessage);
+        Response(res, 201, true, message.otpSendMessage, user._id);
         
     } catch (error) {
         Response(res, 500, false, error.message);

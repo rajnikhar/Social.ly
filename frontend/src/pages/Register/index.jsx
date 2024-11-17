@@ -171,7 +171,7 @@ const Register = () => {
                                     onChange={handleChange}
                                     required 
                                     >
-                                        <option value="" disabled selected>Gender</option>
+                                        <option value="" disabled selected >Gender</option>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
                                         <option value="other">Other</option>

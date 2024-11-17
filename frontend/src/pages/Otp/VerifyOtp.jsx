@@ -1,9 +1,39 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import '../../styles/Register.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { verifyUserOtp } from '../../redux/Actions/userActions';
+import { toast } from 'react-toastify';
+import toastOptions from '../../constants/toast';
 
 const VerifyOtp = () => {
     const spans = Array.from({ length: 128 });
+
+    const [otp, setOtp] = useState('');
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { id } = useParams();
+
+    const { loading, message, error } = useSelector(state => state.userAuth)
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(verifyUserOtp(id, otp));
+    }
+
+    useEffect(() => {
+        if(message){
+            console.log(message)
+            toast.success(message, toastOptions);
+            dispatch({ type: "CLEAR_MESSAGE" })
+            navigate("/")
+        }
+        if(error){
+            toast.error(error, toastOptions);
+            dispatch({ type: "CLEAR_ERROR" })
+        }
+    }, [dispatch, message, error, navigate])
 
 
     return (
@@ -15,12 +45,13 @@ const VerifyOtp = () => {
                 <div className="signin" style={{ width: "400px"}}>
                     <div className="content">
                         <h2>Enter OTP</h2>
-                        <form className="form" >
+                        <form className="form" onSubmit={handleSubmit}>
                             <div className="inputBx">
                                 <input
                                     type="number"
-                                    value=''
+                                    value={otp}
                                     required
+                                    onChange={(e) => setOtp(e.target.value)}
                                 />
                                 <i>OTP</i>
                             </div>
@@ -31,9 +62,11 @@ const VerifyOtp = () => {
                             </div>
                             <div className="inputBx">
                                 <button type="submit" >
-                                    {/* {loading===true ? <span className="spinner"></span> :  */}
-                                    Login
-                                    {/* } */}
+                                    {
+                                        loading===true 
+                                            ? <span className="spinner"></span> 
+                                            : "Verify"
+                                    }
                                 </button>
                             </div>
                         </form>
