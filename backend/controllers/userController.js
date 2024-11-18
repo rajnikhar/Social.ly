@@ -424,7 +424,7 @@ export const resendLoginOtp = async (req, res) => {
         }
 
         // If user is not verified
-        if(!user.verified) {
+        if(!user.isVerified) {
             return Response(res, 400, false, message.userNotVerifiedMessage);
         }
 

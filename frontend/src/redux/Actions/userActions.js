@@ -112,3 +112,45 @@ export const verifyUserOtp = (id, otp) => async (dispatch) => {
         })
     }
 }
+
+export const resendLoginOtp = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: "RESEND_LOGIN_OTP_REQUEST"
+        })
+
+        const { data } = await axios.get(`${URL}/login/resend/${id}`)
+
+        dispatch({
+            type: "RESEND_LOGIN_OTP_SUCCESS",
+            payload: data.message
+        })
+        
+    } catch (error) {
+        dispatch({
+            type: "RESEND_LOGIN_OTP_FAILURE",
+            payload: error.response?.data?.message
+        })
+    }
+}
+
+export const resendVerifyOtp = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: "RESEND_VERIFY_OTP_REQUEST"
+        })
+
+        const { data } = await axios.get(`${URL}/resend/${id}`)
+
+        dispatch({
+            type: "RESEND_VERIFY_OTP_SUCCESS",
+            payload: data.message
+        })
+        
+    } catch (error) {
+        dispatch({
+            type: "RESEND_VERIFY_OTP_FAILURE",
+            payload: error.response?.data?.message
+        })
+    }
+}

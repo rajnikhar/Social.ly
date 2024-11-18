@@ -20,6 +20,14 @@ const verifyOtpRequest = createAction('VERIFY_OTP_REQUEST');
 const verifyOtpSuccess = createAction('VERIFY_OTP_SUCCESS');
 const verifyOtpFailure = createAction('VERIFY_OTP_FAILURE');
 
+const resendLoginOtpRequest = createAction('RESEND_LOGIN_OTP_REQUEST');
+const resendLoginOtpSuccess = createAction('RESEND_LOGIN_OTP_SUCCESS');
+const resendLoginOtpFailure = createAction('RESEND_LOGIN_OTP_FAILURE');
+
+const resendVerifyOtpRequest = createAction('RESEND_VERIFY_OTP_REQUEST');
+const resendVerifyOtpSuccess = createAction('RESEND_VERIFY_OTP_SUCCESS');
+const resendVerifyOtpFailure = createAction('RESEND_VERIFY_OTP_FAILURE');
+
 const clearError = createAction('CLEAR_ERROR');
 const clearMessage = createAction('CLEAR_MESSAGE');
 
@@ -43,11 +51,12 @@ export const userAuthReducer = createReducer(initialState, (builder) => {
         .addCase(loginOtpSuccess, (state, action) => {
             state.loading = false;
             state.message = action.payload;
-            // state.id = action.payload.id;
+            state.isAuthenticated = true;
         })
         .addCase(loginOtpFailure, (state, action) => {
             state.loading = false;
             state.error = action.payload;
+            state.isAuthenticated = false;
         })
         .addCase(userRegisterRequest, (state) => {
             state.loading = true;
@@ -67,9 +76,32 @@ export const userAuthReducer = createReducer(initialState, (builder) => {
         .addCase(verifyOtpSuccess, (state, action) => {
             state.loading = false;
             state.message = action.payload;
-            // state.id = action.payload.id;
+            state.isAuthenticated = true;
         })
         .addCase(verifyOtpFailure, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+            state.isAuthenticated = false;
+        })
+        .addCase(resendLoginOtpRequest, (state) => {
+            state.loading = true;
+        })
+        .addCase(resendLoginOtpSuccess, (state, action) => {
+            state.loading = false;
+            state.message = action.payload;
+        })
+        .addCase(resendLoginOtpFailure, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        })
+        .addCase(resendVerifyOtpRequest, (state) => {
+            state.loading = true;
+        })
+        .addCase(resendVerifyOtpSuccess, (state, action) => {
+            state.loading = false;
+            state.message = action.payload;
+        })
+        .addCase(resendVerifyOtpFailure, (state, action) => {
             state.loading = false;
             state.error = action.payload;
         })

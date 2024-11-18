@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import '../../styles/Register.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { verifyUserOtp } from '../../redux/Actions/userActions';
+import { resendVerifyOtp, verifyUserOtp } from '../../redux/Actions/userActions';
 import { toast } from 'react-toastify';
 import toastOptions from '../../constants/toast';
 
@@ -20,6 +20,10 @@ const VerifyOtp = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(verifyUserOtp(id, otp));
+    }
+
+    const handleResendOTP = () => {
+        dispatch(resendVerifyOtp(id));
     }
 
     useEffect(() => {
@@ -56,7 +60,7 @@ const VerifyOtp = () => {
                                 <i>OTP</i>
                             </div>
                             <div className="links">
-                                <Link to="/login">
+                                <Link to={`/verify/${id}`} onClick={handleResendOTP}>
                                     Resend OTP
                                 </Link>
                             </div>
