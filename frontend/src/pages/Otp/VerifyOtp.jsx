@@ -15,7 +15,7 @@ const VerifyOtp = () => {
     const navigate = useNavigate();
     const { id } = useParams();
 
-    const { loading, message, error } = useSelector(state => state.userAuth)
+    const { loading, message, error, isAuthenticated } = useSelector(state => state.userAuth)
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -31,13 +31,16 @@ const VerifyOtp = () => {
             console.log(message)
             toast.success(message, toastOptions);
             dispatch({ type: "CLEAR_MESSAGE" })
-            navigate("/")
+            // navigate("/")
         }
         if(error){
             toast.error(error, toastOptions);
             dispatch({ type: "CLEAR_ERROR" })
         }
-    }, [dispatch, message, error, navigate])
+        if(isAuthenticated){
+            navigate("/")
+        }
+    }, [dispatch, message, error, navigate, isAuthenticated])
 
 
     return (
