@@ -4,6 +4,7 @@ import cors from "cors"
 import path from "path"
 import userRouter from "./routes/userRoute.js";
 import postRouter from "./routes/postRoute.js";
+import cookieParser from "cookie-parser";
 
 
 dotenv.config({ path: "./config/config.env" });
@@ -12,6 +13,7 @@ const app = express();
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: false }))
+app.use(cookieParser());
 
 app.use(cors({
     origin: [process.env.LOCAL_URL, process.env.WEB_URL],

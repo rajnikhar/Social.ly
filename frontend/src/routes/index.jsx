@@ -6,30 +6,54 @@ import Home from '../pages/Home'
 import LoadingPage from '../Components/Loading/Loading'
 import LoginOtp from '../pages/Otp/LoginOtp'
 import VerifyOtp from '../pages/Otp/VerifyOtp'
+import { useDispatch, useSelector } from 'react-redux'
+import { loadUser } from '../redux/Actions/userActions'
+import ProtectedRoute from './ProtectedRoute'
+import AuthRoute from './AuthRoute'
 
 const Path = () => {
 
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const { userLoading } = useSelector(state => state.userAuth)
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false)
-    }, 1000)
+    dispatch(loadUser());
   }, [])
 
   return (
     <div>
       <Router>
         {
-          loading ? (
+          userLoading ? (
             <LoadingPage />
           ) : (
           <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/login/:id" element={<LoginOtp />} />
-              <Route path="/verify/:id" element={<VerifyOtp />} />
+              <Route path="/" element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+                } />
+
+              <Route path="/login" element={
+                <AuthRoute>
+                  <Login />
+                </AuthRoute>
+                } />
+              <Route path="/register" element={
+                <AuthRoute>
+                  <Register />
+                </AuthRoute>
+                } />
+              <Route path="/login/:id" element={
+                <AuthRoute>
+                  <LoginOtp />
+                </AuthRoute>
+                } />
+              <Route path="/verify/:id" element={
+                <AuthRoute>
+                  <VerifyOtp />
+                </AuthRoute>
+                } />
           </Routes>
         )}
       </Router>

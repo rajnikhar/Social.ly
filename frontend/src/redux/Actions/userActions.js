@@ -3,6 +3,8 @@ import { BACKEND_URL } from '../../constants/url';
 
 const URL = BACKEND_URL + "api/v1/user";
 
+axios.defaults.withCredentials = true
+
 export const loginUser = (email, password) => async (dispatch) => {
     try {
         dispatch({
@@ -150,6 +152,27 @@ export const resendVerifyOtp = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: "RESEND_VERIFY_OTP_FAILURE",
+            payload: error.response?.data?.message
+        })
+    }
+}
+
+export const loadUser = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: "LOAD_USER_REQUEST"
+        })
+
+        const { data } = await axios.get(`${URL}/me`)
+
+        dispatch({
+            type: "LOAD_USER_SUCCESS",
+            payload: data.data
+        })
+        
+    } catch (error) {
+        dispatch({
+            type: "LOAD_USER_FAILURE",
             payload: error.response?.data?.message
         })
     }

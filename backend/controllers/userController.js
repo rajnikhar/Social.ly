@@ -10,8 +10,6 @@ import cloudinary from 'cloudinary'
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-let emailTemplate = fs.readFileSync(path.join(__dirname, '../templates/mail.html'), 'utf-8');
-
 export const registerUser = async (req, res) => {
     try {
         // Parsing body data
@@ -56,6 +54,9 @@ export const registerUser = async (req, res) => {
         user.otp = otp;
         user.otpExpire = otpExpire;
         await user.save();
+
+        // Email Template
+        let emailTemplate = fs.readFileSync(path.join(__dirname, '../templates/mail.html'), 'utf-8');
 
         // Email generation
         const subject = "Verify your account";
@@ -223,6 +224,9 @@ export const resendOtp = async (req, res) => {
         user.otpAttemptsExpire = undefined;
         await user.save();
 
+        // Email Template
+        let emailTemplate = fs.readFileSync(path.join(__dirname, '../templates/mail.html'), 'utf-8');
+
         // Send otp
         const subject = "Verify your account";
         const body = `Your OTP is ${otp}`;
@@ -295,6 +299,9 @@ export const loginUser = async (req, res) => {
         // Generate otp
         const loginOtp = Math.floor(100000 + Math.random() * 900000);
         const loginOtpExpire = new Date(Date.now() + process.env.LOGIN_OTP_EXPIRE * 60 * 1000);
+
+        // Email Template
+        let emailTemplate = fs.readFileSync(path.join(__dirname, '../templates/mail.html'), 'utf-8');
 
         // Send otp
         const subject = "Verify your account";
@@ -438,6 +445,9 @@ export const resendLoginOtp = async (req, res) => {
         user.loginOtpAttempts = 0;
         user.loginOtpAttemptsExpire = undefined;
         await user.save();
+
+        // Email Template
+        let emailTemplate = fs.readFileSync(path.join(__dirname, '../templates/mail.html'), 'utf-8');
 
         // Send otp
         const subject = "Verify your account";
